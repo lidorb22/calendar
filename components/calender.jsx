@@ -34,21 +34,6 @@ function Calender() {
     "col-start-7",
   ];
 
-  const monthToHebrew = [
-    "ינואר",
-    "פברואר",
-    "מרץ",
-    "אפריל",
-    "מאי",
-    "יוני",
-    "יולי",
-    "אוגוסט",
-    "ספטמבר",
-    "אוקטובר",
-    "נובמבר",
-    "דצמבר",
-  ];
-
   let daysArray = eachDayOfInterval({
     start: startOfWeek(today),
     end: endOfWeek(endOfMonth(today)),
@@ -57,7 +42,7 @@ function Calender() {
   return (
     <div className="w-full p-[20px]">
       <div className="w-full flex justify-end pb-[10px]">
-        {monthToHebrew[format(today, "M") - 1]}
+        {format(today, "MMMM")}
       </div>
       <div className="grid grid-cols-7 bg-[#ef3636] rounded-t-[5px] text-white px-[5px] dir h-[50px] items-center">
         <div className="h-8 flex items-center justify-center">ראשון</div>
@@ -80,7 +65,14 @@ function Calender() {
             <div
               className={`h-[30px] flex items-center justify-center my-[5px] ${classNames(
                 isToday(day) &&
-                  "bg-[#241515]/40 rounded-[5px] text-white w-[30px]",
+                  !isEqual(selectedDay, today) &&
+                  "border-[#ef3636] border-b-[2px] text-black w-[30px]",
+                isEqual(selectedDay, day) &&
+                  !isSameWeek(nextSunday(today), day) &&
+                  "bg-[#241515] rounded-[5px] text-white w-[30px]",
+                isSameWeek(nextSunday(today), day) &&
+                  isEqual(selectedDay, day) &&
+                  "bg-[#241515] text-white w-full ",
                 isSameWeek(nextSunday(today), day) &&
                   "bg-[#ef3636] text-white w-full ",
                 isEqual(lastDayOfWeek(nextSunday(today)), day) &&
@@ -94,6 +86,12 @@ function Calender() {
             </div>
           </div>
         ))}
+      </div>
+      <div className="flex items-center justify-between w-full mt-[20px]">
+        <div className="w-[70px] h-[30px] bg-[#241515]/30 rounded-[5px] font-bold text-white flex items-center justify-center">
+          <p>שמירה</p>
+        </div>
+        <div className="text-[14px] underline">העתקת הלוז לשבוע הבא</div>
       </div>
     </div>
   );
