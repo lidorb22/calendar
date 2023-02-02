@@ -1,7 +1,6 @@
 import startOfToday from "date-fns/startOfToday";
 import endOfMonth from "date-fns/endOfMonth";
 import eachDayOfInterval from "date-fns/eachDayOfInterval";
-import startOfMonth from "date-fns/startOfMonth";
 import format from "date-fns/format";
 import endOfWeek from "date-fns/endOfWeek";
 import isToday from "date-fns/isToday";
@@ -13,12 +12,15 @@ import isSameMonth from "date-fns/isSameMonth";
 import nextSunday from "date-fns/nextSunday";
 import isSameWeek from "date-fns/isSameWeek";
 import lastDayOfWeek from "date-fns/lastDayOfWeek";
+import { he } from "date-fns/locale";
+import setDefaultOptions from "date-fns/setDefaultOptions";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
 function Calender() {
+  setDefaultOptions({ locale: he });
   let today = startOfToday();
   const [selectedDay, setSelectedDay] = useState(today);
 
@@ -51,7 +53,6 @@ function Calender() {
     start: startOfWeek(today),
     end: endOfWeek(endOfMonth(today)),
   });
-  console.log(startOfWeek(today));
 
   return (
     <div className="w-full p-[20px]">
