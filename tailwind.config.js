@@ -13,6 +13,10 @@ module.exports = {
       fontFamily: {
         rubik: ["Rubik", "sans-serif"],
       },
+      colors: {
+        peachRed: "#ef3636",
+        brownBlack: "#241515",
+      },
     },
   },
   plugins: [],
