@@ -11,6 +11,7 @@ import {
   endOfWeek,
   format,
   eachDayOfInterval,
+  startOfMonth,
   endOfMonth,
   startOfToday,
   setDefaultOptions,
@@ -69,7 +70,7 @@ function CalenderDisplay({ setEditState }) {
   ];
 
   let daysArray = eachDayOfInterval({
-    start: startOfWeek(today),
+    start: startOfWeek(startOfMonth(today)),
     end: endOfWeek(endOfMonth(today)),
   });
 
