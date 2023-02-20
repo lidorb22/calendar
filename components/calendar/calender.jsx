@@ -151,10 +151,10 @@ function Calender({ setEditState }) {
               animate={
                 isSelecting
                   ? {
-                      scale: [0.8, 1, 1.2, 0.8],
-                      transition: { repeat: Infinity, duration: 0.5 },
+                      rotate: [-10, 10, -10],
+                      transition: { repeat: Infinity, duration: 1.2 },
                     }
-                  : { scale: 1 }
+                  : { rotate: 0 }
               }
               className={`h-[30px] w-[30px] flex items-center justify-center my-[5px] z-10 pointer-events-none ${classNames(
                 isEqual(day, today) && "font-bold text-peachRed",

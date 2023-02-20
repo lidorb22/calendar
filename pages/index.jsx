@@ -1,5 +1,4 @@
 import Navbar from "../components/nav-bar";
-import EventsTypes from "../components/eventTypes";
 import Calender from "../components/calendar/calender";
 
 export default function Home() {
