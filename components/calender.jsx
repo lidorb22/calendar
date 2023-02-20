@@ -95,7 +95,7 @@ function Calender({ setEditState }) {
   }
 
   return (
-    <div className="w-full">
+    <div className="w-full px-[20px]">
       <div className="w-full flex justify-between items-center dir font-bold pb-[20px]">
         <div>{format(today, "MMMM")}</div>
         <div className="flex gap-[20px] text-peachRed">
@@ -151,18 +151,18 @@ function Calender({ setEditState }) {
               animate={
                 isSelecting
                   ? {
-                      rotate: [-10, 10, -10],
+                      rotate: [0, 10, 0, -10, 0],
                       transition: { repeat: Infinity, duration: 1.2 },
                     }
                   : { rotate: 0 }
               }
               className={`h-[30px] w-[30px] flex items-center justify-center my-[5px] z-10 pointer-events-none ${classNames(
-                isEqual(day, today) && "font-bold text-peachRed",
+                isToday(day) && "font-bold text-peachRed",
                 !isSameMonth(today, day) && "text-gray-400",
                 dIndex >= indexArr[0] && dIndex <= indexArr[1] && "text-white",
                 dIndex >= indexArr[0] &&
                   dIndex <= indexArr[1] &&
-                  isEqual(day, today) &&
+                  isToday(day) &&
                   "text-black"
               )}`}
             >
