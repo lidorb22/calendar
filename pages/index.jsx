@@ -4,7 +4,7 @@ import Controllpanel from "../components/controllpanel";
 
 export default function Home() {
   return (
-    <div className="w-full h-[100vh] font-rubik overflow-hidden flex flex-col">
+    <div className="w-full h-full font-rubik flex flex-col overflow-hidden fixed dir">
       <Navbar />
       <Calender />
       <Controllpanel />

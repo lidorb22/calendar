@@ -96,14 +96,14 @@ function Calender({ setEditState }) {
 
   return (
     <div className="w-full px-[20px]">
-      <div className="w-full flex justify-between items-center dir font-bold pb-[20px]">
+      <div className="w-full flex justify-between items-center  font-bold pb-[20px]">
         <div>{format(today, "MMMM")}</div>
         <div className="flex gap-[20px] text-peachRed">
           <ArrowRightIcon className="h-[20px]" />
           <ArrowLeftIcon className="h-[20px]" />
         </div>
       </div>
-      <div className="grid grid-cols-7 dir w-full pb-[10px] text-[14px]">
+      <div className="grid grid-cols-7  w-full pb-[10px] text-[14px]">
         <p className="flex justify-center">א</p>
         <p className="flex justify-center">ב</p>
         <p className="flex justify-center">ג</p>
@@ -119,7 +119,7 @@ function Calender({ setEditState }) {
         onTouchEnd={(e) => {
           daySelection(e);
         }}
-        className="grid grid-cols-7 dir text-[14px] touch-none"
+        className="grid grid-cols-7  text-[14px] touch-none"
       >
         {daysArray.map((day, dIndex) => (
           <div
@@ -128,7 +128,7 @@ function Calender({ setEditState }) {
             className={`${classNames(
               dIndex === 0 && cols[getDay(day)],
               dIndex > 6 && "border-gray-300 border-t-[2px]"
-            )} w-full flex items-center h-[50px] justify-center relative`}
+            )} w-full flex items-center h-[40px] justify-center relative`}
           >
             <AnimatePresence initial={false}>
               {dIndex >= indexArr[0] && dIndex <= indexArr[1] && (

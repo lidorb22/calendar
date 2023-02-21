@@ -1,106 +1,56 @@
 import React, { useState } from "react";
-import { PlusCircleIcon } from "@heroicons/react/20/solid";
+import { PlusCircleIcon, XMarkIcon } from "@heroicons/react/20/solid";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
 export default function Controllpanel() {
-  const arr = [
-    {
-      day: "08",
-      start: "08:00",
-      end: "18:00",
-      break: [
-        ["12:00", "12:40"],
-        ["15:00", "15:40"],
-      ],
-    },
-    {
-      day: "09",
-      start: "08:00",
-      end: "18:00",
-      break: [
-        ["12:00", "12:40"],
-        ["15:00", "15:40"],
-      ],
-    },
-    {
-      day: "10",
-      start: "",
-      end: "",
-      break: [["12:00", "12:40"]],
-    },
-    {
-      day: "11",
-      start: "08:00",
-      end: "18:00",
-      break: [
-        ["12:00", "12:40"],
-        ["15:00", "15:40"],
-      ],
-    },
-    {
-      day: "12",
-      start: "",
-      end: "",
-      break: [],
-    },
-  ];
-  const [selectedDay, setSelectedDay] = useState(arr[0]);
-  console.log(selectedDay);
+  const [startInput, setStartInput] = useState("");
+  const [endInput, setEndInput] = useState("");
+
   return (
-    <div className="w-full h-full pt-[20px] text-[14px] text-white overflow-hidden">
+    <div className="w-full h-full pt-[10px] text-[14px] text-white">
       <div className="w-full h-full bg-peachRed flex flex-col p-[20px]">
-        <div
-          className={`w-full min-h-[30px] flex dir overflow-auto gap-[20px] ${classNames(
-            arr.length > 5 && "justify-between",
-            arr.length <= 5 && "justify-center"
-          )}`}
-        >
-          {arr.map((item, index) => (
-            <p
-              key={index}
-              onClick={() => setSelectedDay(arr[index])}
-              className={`min-w-[30px] h-full flex items-center justify-center rounded-[5px] ${classNames(
-                selectedDay.day === item.day && "bg-brownBlack font-bold"
-              )}`}
-            >
-              {item.day}
-            </p>
-          ))}
+        <div className={`w-full min-h-[30px] flex gap-[20px] justify-center`}>
+          <p
+            className={`min-w-[30px] h-full flex items-center justify-center rounded-[5px]`}
+          >
+            08
+          </p>
         </div>
-        <form className="w-full h-full py-[20px] flex flex-col dir gap-[20px] overflow-auto">
-          <div className="flex items-center dir gap-[20px]">
+        <form className="w-full h-full py-[20px] flex flex-col gap-[20px]">
+          <div className="flex items-center gap-[20px]">
             <label>תחילת משמרת</label>
             <input
               type="time"
-              className="bg-red-800"
-              value={selectedDay.start}
+              className="bg-red-800 rounded-[5px]"
+              value={startInput}
+              onChange={(e) => setStartInput(e.target.value)}
             />
           </div>
-          <div className="flex items-center dir gap-[20px]">
+          <div className="flex items-center gap-[20px]">
             <label>סוף משמרת</label>
-            <input type="time" className="bg-red-800" value={selectedDay.end} />
+            <input
+              type="time"
+              className="bg-red-800 rounded-[5px]"
+              value={endInput}
+              onChange={(e) => setEndInput(e.target.value)}
+            />
           </div>
           <div className="flex gap-[15px] items-center">
             <p>שעות מנוחה</p>
             <PlusCircleIcon className="h-[18px]" />
           </div>
-          {selectedDay.break.map((item) => (
-            <div className="flex items-center dir gap-[20px]">
-              <p>מ-</p>
-              <input type="time" value={item[0]} className="bg-red-800" />
-              <p>עד-</p>
-              <input type="time" value={item[1]} className="bg-red-800" />
-            </div>
-          ))}
+          <div
+            className={`h-[60px] w-full overflow-auto bg-white/20 shadow-[0px_4px_4px_rgba(0,0,0,0.25)] px-[10px] rounded-[5px]`}
+          ></div>
         </form>
         <div className="w-full min-h-[30px] flex justify-between items-end">
+          <div className="underline">החל שינויים על כל הימים</div>
           <div className="bg-brownBlack h-full flex items-center px-[10px] rounded-[5px]">
             שמירה
           </div>
-          <div className="underline">החל שינויים על כל הימים</div>
         </div>
       </div>
     </div>
