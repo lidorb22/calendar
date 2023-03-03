@@ -1,8 +1,5 @@
 import { useState, useEffect } from "react";
 import {
-  lastDayOfWeek,
-  isSameWeek,
-  nextSunday,
   isSameMonth,
   startOfWeek,
   getDay,
@@ -18,8 +15,9 @@ import {
 } from "date-fns";
 import useMeasure from "react-use-measure";
 import { he } from "date-fns/locale";
-import { motion, AnimatePresence, delay } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/20/solid";
+import calendarStore from "../store/calendar";
 
 setDefaultOptions({ locale: he });
 
@@ -27,7 +25,8 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-function Calender({ setEditState }) {
+function Calender() {
+  const pickDaysState = calendarStore((state) => state.setDays);
   let today = startOfToday();
   useEffect(() => {
     if (!isEqual(today, startOfToday())) {
@@ -64,8 +63,10 @@ function Calender({ setEditState }) {
       setIsSelecting(false);
       if (indexArr[2] > indexArr[3]) {
         setIndexArr([indexArr[3], indexArr[2], 0, 0]);
+        pickDaysState(daysArray[indexArr[3]], daysArray[indexArr[2]]);
       } else {
         setIndexArr([indexArr[2], indexArr[3], 0, 0]);
+        pickDaysState(daysArray[indexArr[2]], daysArray[indexArr[3]]);
       }
       return;
     }
@@ -93,7 +94,6 @@ function Calender({ setEditState }) {
         break;
     }
   }
-
   return (
     <div className="w-full px-[20px]">
       <div className="w-full flex justify-between items-center  font-bold pb-[20px]">
