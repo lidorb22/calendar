@@ -12,6 +12,8 @@ export default function Controllpanel() {
   const firstAndLastDay = calendarStore((state) => state.days);
   const daysOBJ = calendarStore((state) => state.daysOBJ);
   const changeInput = calendarStore((state) => state.changeInput);
+  const removePass = calendarStore((state) => state.removePass);
+  const addPass = calendarStore((state) => state.addPass);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [data, setData] = useState([
     {
@@ -111,25 +113,55 @@ export default function Controllpanel() {
               className="text-brownBlack"
             />
           </div>
-          <div className="row-start-1 col-start-3 h-full w-full flex flex-col items-center gap-[15px] overflow-y-auto relative">
+          <div className="row-start-1 col-start-3 h-full w-full flex flex-col items-center gap-[15px] overflow-y-auto relative overflow-x-hidden">
             <div className="flex justify-center gap-[5px] sticky top-0">
               <p>הפסקות</p>
-              <PlusIcon className="h-[20px] text-brownBlack" />
+              <PlusIcon
+                onClick={() => addPass(selectedIndex)}
+                className="h-[20px] text-brownBlack"
+              />
             </div>
             {daysOBJ[selectedIndex].pass.map((time, i) => (
               <div
                 key={i}
-                className="flex items-center justify-center gap-[10px] w-full text-brownBlack"
+                className="flex items-center justify-center w-full min-h-max text-brownBlack gap-[5px]"
               >
-                <input
-                  name="pass"
-                  type="time"
-                  value={time}
-                  onChange={(e) =>
-                    changeInput(e.target.name, e.target.value, selectedIndex, i)
-                  }
-                />
-                <XMarkIcon className="h-[20px]" />
+                <div className="flex flex-col items-center justify-center w-max h-full gap-[10px]">
+                  <input
+                    name="pass"
+                    type="time"
+                    value={time[0]}
+                    onChange={(e) =>
+                      changeInput(
+                        e.target.name,
+                        e.target.value,
+                        selectedIndex,
+                        i
+                      )
+                    }
+                    className="w-[70px] self-start"
+                  />
+                  <input
+                    name="pass"
+                    type="time"
+                    value={time[1]}
+                    onChange={(e) =>
+                      changeInput(
+                        e.target.name,
+                        e.target.value,
+                        selectedIndex,
+                        i
+                      )
+                    }
+                    className="w-[70px] self-start"
+                  />
+                </div>
+                <div className="w-[10px] h-3/4 border-black border-t-[3px] border-l-[3px] border-b-[3px] left-[10px] flex items-center ">
+                  <XMarkIcon
+                    onClick={() => removePass(i, selectedIndex)}
+                    className="min-h-[20px] min-w-[20px] bg-peachRed"
+                  />
+                </div>
               </div>
             ))}
           </div>

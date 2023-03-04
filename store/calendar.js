@@ -11,7 +11,7 @@ setDefaultOptions({ locale: he });
 let today = startOfToday();
 
 const calendarStore = create(
-  devtools((set) => ({
+  devtools((set, get) => ({
     days: [today, today],
     daysOBJ: [
       {
@@ -57,12 +57,23 @@ const calendarStore = create(
     changeInput: (name, value, index, passIndex) => {
       if (name === "pass") {
         set((state) => (state.daysOBJ[index].pass[passIndex] = value));
-      } else if (name === "start") {
-        set((state) => ({
-          //prettier-ignore
-          daysOBJ: [state.daysOBJ[index], state.daysOBJ[index].start = value],
-        }));
+      } else {
+        const oldDO = get().daysOBJ;
+        oldDO[index] = { ...oldDO[index], [name]: value };
+        console.log(oldDO);
+        set({ daysOBJ: oldDO });
       }
+    },
+    addPass: (index) => {
+      const passOption = ["00:00", "00:00"];
+      const oldDO = get().daysOBJ;
+      oldDO[index].pass.push(passOption);
+      set({ daysOBJ: oldDO });
+    },
+    removePass: (index, selectedIndex) => {
+      const oldDO = get().daysOBJ;
+      oldDO[selectedIndex].pass.splice(index, 1);
+      set({ daysOBJ: oldDO });
     },
   }))
 );
