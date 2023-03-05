@@ -16,7 +16,7 @@ import {
 import useMeasure from "react-use-measure";
 import { he } from "date-fns/locale";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/20/solid";
+import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import calendarStore from "../store/calendar";
 
 setDefaultOptions({ locale: he });
@@ -61,14 +61,47 @@ function Calender() {
   function daySelection(e) {
     if (e._reactName === "onTouchEnd") {
       setIsSelecting(false);
+      const indexNum = Math.abs(indexArr[2] - indexArr[3]) + 1;
       if (indexArr[2] > indexArr[3]) {
+        if (indexNum > 8) {
+          setIndexArr([indexArr[2] - 7, indexArr[2], 0, 0]);
+          pickDaysState(
+            eachDayOfInterval({
+              start: daysArray[indexArr[2] - 7],
+              end: daysArray[indexArr[2]],
+            })
+          );
+          return;
+        }
         setIndexArr([indexArr[3], indexArr[2], 0, 0]);
-        pickDaysState(daysArray[indexArr[3]], daysArray[indexArr[2]]);
+        pickDaysState(
+          eachDayOfInterval({
+            start: daysArray[indexArr[3]],
+            end: daysArray[indexArr[2]],
+          })
+        );
+        return;
       } else {
+        console.log("lower");
+        if (indexNum > 8) {
+          setIndexArr([indexArr[2], indexArr[2] + 7, 0, 0]);
+          pickDaysState(
+            eachDayOfInterval({
+              start: daysArray[indexArr[2]],
+              end: daysArray[indexArr[2] + 7],
+            })
+          );
+          return;
+        }
         setIndexArr([indexArr[2], indexArr[3], 0, 0]);
-        pickDaysState(daysArray[indexArr[2]], daysArray[indexArr[3]]);
+        pickDaysState(
+          eachDayOfInterval({
+            start: daysArray[indexArr[2]],
+            end: daysArray[indexArr[3]],
+          })
+        );
+        return;
       }
-      return;
     }
     setIsSelecting(true);
 
@@ -96,12 +129,9 @@ function Calender() {
   }
   return (
     <div className="w-full px-[20px]">
-      <div className="w-full flex justify-between items-center  font-bold pb-[20px]">
+      <div className="w-full flex items-center font-bold pb-[20px] gap-[5px] text-peachRed">
         <div>{format(today, "MMMM")}</div>
-        <div className="flex gap-[20px] text-peachRed">
-          <ArrowRightIcon className="h-[20px]" />
-          <ArrowLeftIcon className="h-[20px]" />
-        </div>
+        <ChevronDownIcon className="w-[20px]" />
       </div>
       <div className="grid grid-cols-7  w-full pb-[10px] text-[14px]">
         <p className="flex justify-center">א</p>

@@ -1,81 +1,33 @@
-import React, { useEffect, useState } from "react";
-import { PlusIcon, XMarkIcon } from "@heroicons/react/20/solid";
+import React, { useState } from "react";
+import { PlusIcon } from "@heroicons/react/20/solid";
 import { motion, AnimatePresence } from "framer-motion";
 import calendarStore from "../store/calendar";
-import { eachDayOfInterval, format } from "date-fns";
+import { format } from "date-fns";
+import Input from "./controllpanel/input";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
 export default function Controllpanel() {
-  const firstAndLastDay = calendarStore((state) => state.days);
+  const [selectedIndex, setSelectedIndex] = useState(0);
+
   const daysOBJ = calendarStore((state) => state.daysOBJ);
   const changeInput = calendarStore((state) => state.changeInput);
-  const removePass = calendarStore((state) => state.removePass);
   const addPass = calendarStore((state) => state.addPass);
-  const [selectedIndex, setSelectedIndex] = useState(0);
-  const [data, setData] = useState([
-    {
-      day: 25,
-      start: "15:00",
-      end: "15:00",
-      pass: [],
-    },
-    {
-      day: 26,
-      start: "15:00",
-      end: "15:00",
-      pass: ["15:00", "15:00", "15:00", "15:00", "15:00", "15:00", "15:00"],
-    },
-    {
-      day: 27,
-      start: "15:00",
-      end: "15:00",
-      pass: [],
-    },
-  ]);
-  const [sIndex, setSIndex] = useState(0);
-
-  let daysArray = eachDayOfInterval({
-    start: firstAndLastDay[0],
-    end: firstAndLastDay[1],
-  });
-
-  function handleChange(e, i) {
-    const { value, name } = e.target;
-
-    let newState = data[sIndex];
-
-    if (name === "pass") {
-      newState.pass[i] = value;
-      newState = {
-        ...newState,
-      };
-    } else {
-      newState = {
-        ...newState,
-        [name]: value,
-      };
-    }
-    data[sIndex] = newState;
-  }
-
-  useEffect(() => {
-    setSelectedIndex(0);
-  }, [firstAndLastDay]);
+  const applyToAll = calendarStore((state) => state.applyToAll);
 
   return (
     <div className="w-full h-full py-[15px] text-[14px] text-white px-[20px] overflow-hidden">
-      <div className="w-full h-full bg-peachRed flex flex-col p-[20px] rounded-[15px] justify-between">
+      <div className="w-full h-full bg-peachRed flex flex-col p-[20px] rounded-b-[15px] justify-between">
         <div className={`w-full min-h-[30px] flex justify-center`}>
           <div
             className={`h-full flex gap-[20px] bg-brownBlack rounded-[5px] px-[10px] ${classNames(
-              daysArray.length <= 6 && "justify-center",
-              daysArray.length > 6 && "justify-start overflow-x-auto"
+              daysOBJ.length <= 6 && "justify-center",
+              daysOBJ.length > 6 && "justify-start overflow-x-auto"
             )}`}
           >
-            {daysArray.map((d, i) => (
+            {daysOBJ.map((d, i) => (
               <p
                 key={i}
                 onClick={() => setSelectedIndex(i)}
@@ -83,7 +35,7 @@ export default function Controllpanel() {
               ${classNames(selectedIndex === i && "text-white/100 font-bold")}
               `}
               >
-                {format(d, "dd")}
+                {format(d.day, "dd")}
               </p>
             ))}
           </div>
@@ -122,52 +74,26 @@ export default function Controllpanel() {
               />
             </div>
             {daysOBJ[selectedIndex].pass.map((time, i) => (
-              <div
-                key={i}
-                className="flex items-center justify-center w-full min-h-max text-brownBlack gap-[5px]"
-              >
-                <div className="flex flex-col items-center justify-center w-max h-full gap-[10px]">
-                  <input
-                    name="pass"
-                    type="time"
-                    value={time[0]}
-                    onChange={(e) =>
-                      changeInput(
-                        e.target.name,
-                        e.target.value,
-                        selectedIndex,
-                        i
-                      )
-                    }
-                    className="w-[70px] self-start"
-                  />
-                  <input
-                    name="pass"
-                    type="time"
-                    value={time[1]}
-                    onChange={(e) =>
-                      changeInput(
-                        e.target.name,
-                        e.target.value,
-                        selectedIndex,
-                        i
-                      )
-                    }
-                    className="w-[70px] self-start"
-                  />
-                </div>
-                <div className="w-[10px] h-3/4 border-black border-t-[3px] border-l-[3px] border-b-[3px] left-[10px] flex items-center ">
-                  <XMarkIcon
-                    onClick={() => removePass(i, selectedIndex)}
-                    className="min-h-[20px] min-w-[20px] bg-peachRed"
-                  />
-                </div>
-              </div>
+              <Input key={i} time={time} i={i} selectedIndex={selectedIndex} />
             ))}
           </div>
         </form>
-        <div className="w-full min-h-[30px] flex justify-between items-end">
-          <div className="underline">החל על כל הימים!</div>
+        <div
+          className={`w-full min-h-[30px] flex items-end
+        ${classNames(
+          daysOBJ.length > 1 && "justify-between",
+          daysOBJ.length <= 1 && "justify-end"
+        )}
+        `}
+        >
+          {daysOBJ.length > 1 && (
+            <div
+              onClick={() => applyToAll(selectedIndex)}
+              className="underline"
+            >
+              החל על כל הימים!
+            </div>
+          )}
           <div className="bg-brownBlack h-full flex items-center px-[10px] rounded-[5px]">
             שמירה
           </div>
