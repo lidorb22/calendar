@@ -12,21 +12,21 @@ import {
   startOfToday,
   setDefaultOptions,
   startOfMonth,
+  add,
 } from "date-fns";
 import useMeasure from "react-use-measure";
 import { he } from "date-fns/locale";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import calendarStore from "../store/calendar";
+import { classNames } from "../store/commonFunctions";
 
 setDefaultOptions({ locale: he });
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
-}
-
 function Calender() {
-  const pickDaysState = calendarStore((state) => state.setDays);
+  const { setDays, turnChanging, isChangingDays, daysOBJ } = calendarStore(
+    (state) => state
+  );
   let today = startOfToday();
   useEffect(() => {
     if (!isEqual(today, startOfToday())) {
@@ -36,16 +36,51 @@ function Calender() {
     }
   }, []);
 
+  const [currentMonth, setCurrentMonth] = useState(today);
+  const [isMonthBarOpen, setIsMonthBarOpen] = useState(false);
+
+  const monthsArr = [
+    "ינואר",
+    "פברואר",
+    "מרץ",
+    "אפריל",
+    "מאי",
+    "יוני",
+    "יולי",
+    "אוגוסט",
+    "ספטמבר",
+    "אוקטובר",
+    "נובמבר",
+    "דצמבר",
+  ];
+
+  function changeMonth(e) {
+    let indexOfCurrentMonth = monthsArr.indexOf(format(currentMonth, "MMMM"));
+    if (Number(e.target.id) === indexOfCurrentMonth) return;
+    let state;
+    if (Number(e.target.id) > indexOfCurrentMonth) {
+      state = "P";
+    } else {
+      state = "M";
+    }
+    let number = Math.abs(Number(e.target.id) - indexOfCurrentMonth);
+    if (state === "P") {
+      setCurrentMonth(add(currentMonth, { months: number }));
+    } else {
+      setCurrentMonth(add(currentMonth, { months: -number }));
+    }
+    setIsMonthBarOpen(false);
+  }
+
   let daysArray = eachDayOfInterval({
-    start: startOfWeek(startOfMonth(today)),
-    end: endOfWeek(endOfMonth(today)),
+    start: startOfWeek(startOfMonth(currentMonth)),
+    end: endOfWeek(endOfMonth(currentMonth)),
   });
 
   const indexOfToday = daysArray.findIndex(
     (day) => day.toString() === today.toString()
   );
   const [indexArr, setIndexArr] = useState([indexOfToday, indexOfToday, 0, 0]);
-  const [isSelecting, setIsSelecting] = useState(false);
   const [ref, bounds] = useMeasure();
 
   const cols = [
@@ -60,12 +95,12 @@ function Calender() {
 
   function daySelection(e) {
     if (e._reactName === "onTouchEnd") {
-      setIsSelecting(false);
+      turnChanging(false);
       const indexNum = Math.abs(indexArr[2] - indexArr[3]) + 1;
       if (indexArr[2] > indexArr[3]) {
         if (indexNum > 8) {
           setIndexArr([indexArr[2] - 7, indexArr[2], 0, 0]);
-          pickDaysState(
+          setDays(
             eachDayOfInterval({
               start: daysArray[indexArr[2] - 7],
               end: daysArray[indexArr[2]],
@@ -74,7 +109,7 @@ function Calender() {
           return;
         }
         setIndexArr([indexArr[3], indexArr[2], 0, 0]);
-        pickDaysState(
+        setDays(
           eachDayOfInterval({
             start: daysArray[indexArr[3]],
             end: daysArray[indexArr[2]],
@@ -82,10 +117,9 @@ function Calender() {
         );
         return;
       } else {
-        console.log("lower");
         if (indexNum > 8) {
           setIndexArr([indexArr[2], indexArr[2] + 7, 0, 0]);
-          pickDaysState(
+          setDays(
             eachDayOfInterval({
               start: daysArray[indexArr[2]],
               end: daysArray[indexArr[2] + 7],
@@ -94,7 +128,7 @@ function Calender() {
           return;
         }
         setIndexArr([indexArr[2], indexArr[3], 0, 0]);
-        pickDaysState(
+        setDays(
           eachDayOfInterval({
             start: daysArray[indexArr[2]],
             end: daysArray[indexArr[3]],
@@ -103,7 +137,7 @@ function Calender() {
         return;
       }
     }
-    setIsSelecting(true);
+    turnChanging(true);
 
     // prettier-ignore
     let x = Math.floor((bounds.width - (e.touches[0].clientX - bounds.x)) / (bounds.width / 7));
@@ -127,11 +161,44 @@ function Calender() {
         break;
     }
   }
+
   return (
     <div className="w-full px-[20px]">
-      <div className="w-full flex items-center font-bold pb-[20px] gap-[5px] text-peachRed">
-        <div>{format(today, "MMMM")}</div>
-        <ChevronDownIcon className="w-[20px]" />
+      <div className="w-full pb-[20px] relative">
+        <div
+          onClick={() => setIsMonthBarOpen(!isMonthBarOpen)}
+          className="flex items-center font-bold gap-[5px] text-peachRed"
+        >
+          <div>{format(currentMonth, "MMMM")}</div>
+          <ChevronDownIcon className="w-[20px]" />
+        </div>
+        <AnimatePresence>
+          {isMonthBarOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 1, type: "spring" }}
+              className="bg-white absolute top-[20px] right-[10px] z-10 flex flex-col gap-[10px] px-[20px] text-brownBlack rounded-[5px] shadow-[0px_4px_4px_rgba(0,0,0,0.25)] overflow-hidden"
+            >
+              {monthsArr.map((month, i) => (
+                <p
+                  key={month}
+                  id={i}
+                  className={`${classNames(
+                    month === format(currentMonth, "MMMM") && "text-peachRed",
+                    month === format(today, "MMMM") && "font-bold",
+                    i === 0 && "pt-[20px]",
+                    i === 11 && "pb-[20px]"
+                  )}`}
+                  onClick={(e) => changeMonth(e)}
+                >
+                  {month}
+                </p>
+              ))}
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
       <div className="grid grid-cols-7  w-full pb-[10px] text-[14px]">
         <p className="flex justify-center">א</p>
@@ -168,7 +235,7 @@ function Calender() {
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.2 }}
                   transition={{ duration: 1.2 }}
-                  className={`h-[25px] pointer-events-none absolute bg-peachRed ${classNames(
+                  className={`h-[25px] pointer-events-none absolute bg-peachRed -z-10 ${classNames(
                     dIndex === indexArr[0] && "rounded-r-[5px]",
                     dIndex === indexArr[1] && "rounded-l-[5px]",
                     indexArr[0] !== indexArr[1] && "w-full",
@@ -179,14 +246,14 @@ function Calender() {
             </AnimatePresence>
             <motion.div
               animate={
-                isSelecting
+                isChangingDays
                   ? {
                       rotate: [0, 10, 0, -10, 0],
                       transition: { repeat: Infinity, duration: 1.2 },
                     }
                   : { rotate: 0 }
               }
-              className={`h-[30px] w-[30px] flex items-center justify-center my-[5px] z-10 pointer-events-none ${classNames(
+              className={`h-[30px] w-[30px] flex items-center justify-center my-[5px] pointer-events-none ${classNames(
                 isToday(day) && "font-bold text-peachRed",
                 !isSameMonth(today, day) && "text-gray-400",
                 dIndex >= indexArr[0] && dIndex <= indexArr[1] && "text-white",

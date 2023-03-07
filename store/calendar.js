@@ -16,6 +16,14 @@ const calendarStore = create(
         pass: [],
       },
     ],
+    isChangingDays: false,
+    isNavOpen: false,
+    navBoolState: () => {
+      set((state) => ({ isNavOpen: !state.isNavOpen }));
+    },
+    turnChanging: (bool) => {
+      set({ isChangingDays: bool });
+    },
     setDays: (arr) => {
       set(
         produce((draft) => {

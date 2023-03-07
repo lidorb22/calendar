@@ -1,21 +1,19 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { PlusIcon } from "@heroicons/react/20/solid";
-import { motion, AnimatePresence } from "framer-motion";
 import calendarStore from "../store/calendar";
 import { format } from "date-fns";
 import Input from "./controllpanel/input";
-
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
-}
+import { classNames } from "../store/commonFunctions";
 
 export default function Controllpanel() {
   const [selectedIndex, setSelectedIndex] = useState(0);
 
-  const daysOBJ = calendarStore((state) => state.daysOBJ);
-  const changeInput = calendarStore((state) => state.changeInput);
-  const addPass = calendarStore((state) => state.addPass);
-  const applyToAll = calendarStore((state) => state.applyToAll);
+  const { daysOBJ, isChangingDays, changeInput, addPass, applyToAll } =
+    calendarStore((state) => state);
+
+  useEffect(() => {
+    if (isChangingDays) return setSelectedIndex(0);
+  }, [isChangingDays]);
 
   return (
     <div className="w-full h-full py-[15px] text-[14px] text-white px-[20px] overflow-hidden">
