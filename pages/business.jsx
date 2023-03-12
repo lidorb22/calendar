@@ -36,7 +36,7 @@ function Business() {
             <div className="flex items-center text-center w-full border-b-[2px] border-peachRed pb-[10px]">
               <p className="w-full border-l-[2px]">בסיס</p>
               <p className="w-full border-l-[2px]">מדיום</p>
-              <p className="w-full">לארג'</p>
+              <p className="w-full">לארג&rsquo;</p>
             </div>
             <div className="w-full grid grid-cols-3 text-center">
               <div className="border-l-[2px] border-b-[2px] h-[40px] flex items-center justify-center text-[14px]">
@@ -60,7 +60,7 @@ function Business() {
             </div>
           </div>
           <div className="w-full flex flex-col gap-[10px] items-center">
-            <p>סה"כ: 500 / חודש</p>
+            <p>סה&ldquo;כ: 500 / חודש</p>
             <p className="bg-peachRed rounded-[5px] px-[10px] py-[5px] text-white tracking-[0.2em]">
               רכישת החוזה
             </p>

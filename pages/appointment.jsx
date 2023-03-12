@@ -10,7 +10,7 @@ function Appointment() {
     if (user === null) {
       router.push("/business");
     }
-  }, []);
+  }, [user, router]);
   return <AppointmentComp />;
 }
 

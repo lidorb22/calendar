@@ -10,7 +10,7 @@ function Actions() {
     if (user === null) {
       router.push("/business");
     }
-  }, []);
+  }, [user, router]);
   return (
     <div className="w-full h-full flex flex-col overflow-hidden p-[20px] gap-[10px]">
       <div className="w-full pb-[10px] flex justify-end">

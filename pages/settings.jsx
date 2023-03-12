@@ -13,7 +13,7 @@ function Settings() {
     if (user === null) {
       router.push("/business");
     }
-  }, []);
+  }, [user, router]);
   return (
     <div className="w-full h-full flex flex-col overflow-hidden p-[20px]">
       <div className="w-full pb-[40px] flex justify-end">

@@ -11,7 +11,7 @@ export default function Home() {
     if (user === null || user?.contractType === "normal") {
       router.push("/business");
     }
-  }, []);
+  }, [user, router]);
 
   return <BusinessCalander />;
 }
