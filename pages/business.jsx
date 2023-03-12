@@ -7,7 +7,10 @@ function Business() {
     <div className="w-full h-full flex flex-col overflow-hidden p-[20px]">
       <div className="w-full pb-[20px] flex justify-end">
         <EllipsisVerticalIcon
-          onClick={() => navBoolState()}
+          onClick={() => {
+            console.log("click");
+            navBoolState();
+          }}
           className="h-[20px] text-peachRed"
         />
       </div>
