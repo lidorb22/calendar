@@ -5,14 +5,11 @@ function Business() {
   const { navBoolState } = calendarStore((state) => state);
   return (
     <div className="w-full h-full flex flex-col overflow-hidden p-[20px]">
-      <div
-        onClick={() => {
-          console.log("click");
-          navBoolState();
-        }}
-        className="w-max self-end pb-[20px] flex justify-end bg-green-400"
-      >
-        <EllipsisVerticalIcon className="h-[20px] text-peachRed" />
+      <div className="w-max self-end pb-[20px] flex justify-end">
+        <EllipsisVerticalIcon
+          onClick={() => navBoolState()}
+          className="h-[20px] text-peachRed"
+        />
       </div>
       <div className="w-full h-full flex flex-col justify-between">
         <div className="w-full flex flex-col gap-[5px] text-[14px]">

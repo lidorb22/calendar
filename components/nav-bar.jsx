@@ -2,16 +2,12 @@ import calendarStore from "@/store/calendar";
 import { ArrowLeftOnRectangleIcon, XMarkIcon } from "@heroicons/react/20/solid";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { classNames } from "../store/commonFunctions";
 import Link from "next/link";
 
 function Navbar() {
   const { navBoolState, user } = calendarStore((state) => state);
-  const router = useRouter();
-  /*useEffect(() => {
-    navBoolState();
-  }, [router]);*/
 
   return (
     <motion.div
@@ -35,7 +31,7 @@ function Navbar() {
 
 function LogedIn() {
   const { fullName, contractType } = calendarStore((state) => state.user);
-  const { logOutUser } = calendarStore((state) => state);
+  const { logOutUser, navBoolState } = calendarStore((state) => state);
   const router = useRouter();
   return (
     <div className="w-full h-full relative px-[20px] flex flex-col justify-between">
@@ -44,6 +40,7 @@ function LogedIn() {
         <p>שלום {fullName}</p>
         <div className="w-full flex flex-col gap-[15px]">
           <Link
+            onClick={() => navBoolState()}
             href={contractType === "business" ? "/" : "/appointment"}
             className={`${classNames(
               router.pathname === "/" &&
@@ -58,6 +55,7 @@ function LogedIn() {
           </Link>
           {contractType === "business" && (
             <Link
+              onClick={() => navBoolState()}
               href="/appointment"
               className={`${classNames(
                 router.pathname === "/appointment" && "text-peachRed"
@@ -68,6 +66,7 @@ function LogedIn() {
           )}
           {contractType === "business" && (
             <Link
+              onClick={() => navBoolState()}
               href="/actions"
               className={`${classNames(
                 router.pathname === "/actions" && "text-peachRed"
@@ -78,6 +77,7 @@ function LogedIn() {
           )}
           <Link
             href="/business"
+            onClick={() => navBoolState()}
             className={`${classNames(
               router.pathname === "/business" && "text-peachRed"
             )}`}
@@ -86,6 +86,7 @@ function LogedIn() {
           </Link>
           <Link
             href="/settings"
+            onClick={() => navBoolState()}
             className={`${classNames(
               router.pathname === "/settings" && "text-peachRed"
             )}`}
