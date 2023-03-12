@@ -9,9 +9,9 @@ import Link from "next/link";
 function Navbar() {
   const { navBoolState, user } = calendarStore((state) => state);
   const router = useRouter();
-  useEffect(() => {
+  /*useEffect(() => {
     navBoolState();
-  }, [router]);
+  }, [router]);*/
 
   return (
     <motion.div
