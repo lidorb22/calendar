@@ -140,7 +140,7 @@ function Calender() {
     turnChanging(true);
 
     // prettier-ignore
-    let x = Math.floor((bounds.width - (e.touches[0].clientX - bounds.x)) / (bounds.width / 7));
+    let x = Math.floor((bounds.width - (e.touches[0].clientX - 20)) / (bounds.width / 7));
     // prettier-ignore
     let y = Math.floor((e.touches[0].clientY - bounds.y) / (bounds.height / 5));
     let i;
@@ -164,7 +164,7 @@ function Calender() {
 
   return (
     <div className="w-full px-[20px]">
-      <div className="w-full pb-[20px] relative">
+      <div className="pb-[20px] relative w-max">
         <div
           onClick={() => setIsMonthBarOpen(!isMonthBarOpen)}
           className="flex items-center font-bold gap-[5px] text-peachRed"

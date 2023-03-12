@@ -18,6 +18,23 @@ const calendarStore = create(
     ],
     isChangingDays: false,
     isNavOpen: false,
+    user: null,
+    testUser: () => {
+      set({
+        user: {
+          fullName: "לידור בניסתי",
+          email: "321lidor11@gmail.com",
+          phone: "0549524724",
+          contractType: "business",
+          rooms: [{ name: "אריאל הספר" }],
+        },
+      });
+    },
+    logOutUser: () => {
+      set({
+        user: null,
+      });
+    },
     navBoolState: () => {
       set((state) => ({ isNavOpen: !state.isNavOpen }));
     },

@@ -1,20 +1,17 @@
-import Calender from "../components/calender";
-import Controllpanel from "../components/controllpanel";
-import { EllipsisVerticalIcon } from "@heroicons/react/20/solid";
+import { useEffect } from "react";
+import AppointmentComp from "../components/appointmentComp";
+import BusinessCalander from "../components/businessCalander";
 import calendarStore from "../store/calendar";
+import { useRouter } from "next/router";
 
 export default function Home() {
-  const { navBoolState } = calendarStore((state) => state);
-  return (
-    <div className="w-full h-full font-rubik flex flex-col overflow-hidden">
-      <div className="w-full p-[20px] flex justify-end">
-        <EllipsisVerticalIcon
-          onClick={() => navBoolState()}
-          className="h-[20px] text-peachRed"
-        />
-      </div>
-      <Calender />
-      <Controllpanel />
-    </div>
-  );
+  const { user } = calendarStore((state) => state);
+  const router = useRouter();
+  useEffect(() => {
+    if (user === null || user?.contractType === "normal") {
+      router.push("/business");
+    }
+  }, []);
+
+  return <BusinessCalander />;
 }

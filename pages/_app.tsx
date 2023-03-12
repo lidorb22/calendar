@@ -7,7 +7,7 @@ import calendarStore from "../store/calendar";
 export default function App({ Component, pageProps }: AppProps) {
   const { isNavOpen } = calendarStore((state) => state);
   return (
-    <div className="w-full h-full fixed dir overflow-hidden">
+    <div className="w-full h-full fixed dir overflow-hidden font-rubik">
       <motion.div
         animate={
           isNavOpen
@@ -31,7 +31,7 @@ export default function App({ Component, pageProps }: AppProps) {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.8 }}
-              className="w-full h-full absolute top-0 right-0 bg-black/80 z-10 backdrop-blur-[4px]"
+              className="w-full h-full absolute top-0 right-0 bg-black/80 z-10 backdrop-blur-[4px] pointer-events-auto"
             ></motion.div>
           )}
         </AnimatePresence>
