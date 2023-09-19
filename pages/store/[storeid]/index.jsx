@@ -29,6 +29,7 @@ export default function Page() {
   const router = useRouter();
   const { user } = useUser({ redirectTo: "/", owner: true });
   const { store } = useGetStoreById(router.query.storeid);
+  console.log(store);
   const today = startOfToday(new Date());
   const [isCreatingNewDiary, setIsCreatingNewDiary] = useState(false);
   const [currentSection, setCurrentSection] = useState(0);
