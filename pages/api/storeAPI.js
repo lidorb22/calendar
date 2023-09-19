@@ -9,15 +9,13 @@ export function useGetStoreById(id) {
   const { user } = appStore((state) => state);
   useEffect(() => {
     async function api() {
+      console.log("use api");
       try {
-        console.log("in try");
         const result = await axios.get(`${baseUrl}/store/`, {
           params: { id },
         });
         setStore(result.data);
-      } catch (error) {
-        console.log("in catch");
-      }
+      } catch (error) {}
     }
     return () => {
       api();
