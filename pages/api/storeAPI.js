@@ -8,8 +8,8 @@ export function useGetStoreById(id) {
   const [store, setStore] = useState(null);
   const { user } = appStore((state) => state);
   useEffect(() => {
-    console.log("useeffect");
     async function api() {
+      console.log("running");
       try {
         const result = await axios.get(`${baseUrl}/store/`, {
           params: { id },
@@ -17,9 +17,8 @@ export function useGetStoreById(id) {
         setStore(result.data);
       } catch (error) {}
     }
-    return () => {
-      api();
-    };
-  }, [user]);
+    api();
+    return () => {};
+  }, []);
   return { store };
 }
