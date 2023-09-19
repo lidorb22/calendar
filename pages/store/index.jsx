@@ -7,7 +7,7 @@ import {
   UserIcon,
 } from "@heroicons/react/20/solid";
 import { useState } from "react";
-import appStore from "../../store/store";
+//import appStore from "../../store/store";
 export default function Page() {
   const { user } = useUser({ redirectTo: "/", usage: "business" });
   //const { addStore } = appStore((state) => state);

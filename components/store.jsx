@@ -132,7 +132,7 @@ export function CreateDiaryElement({ setIsCreatingNewDiary, dayTracker }) {
       transition={{ duration: 0.8 }}
       className="absolute top-0 w-full h-full right-0 flex flex-col items-center justify-center pointer-events-none pt-[100px]"
     >
-      <p>אין לו"ז ביום זה</p>
+      <p>אין לו&quot;ז ביום זה</p>
       {isFuture(dayTracker) &&
         !isToday(dayTracker) &&
         isThisWeek(dayTracker) && (
@@ -144,7 +144,7 @@ export function CreateDiaryElement({ setIsCreatingNewDiary, dayTracker }) {
             className="bg-ten text-white px-[10px] h-[30px] flex items-center rounded-[5px] gap-[5px] w-max pointer-events-auto"
           >
             <PlusIcon className="h-[20px] pointer-events-none" />
-            <p className="pointer-events-none">יצירת לו"ז</p>
+            <p className="pointer-events-none">יצירת לו&quot;ז</p>
           </div>
         )}
     </motion.div>

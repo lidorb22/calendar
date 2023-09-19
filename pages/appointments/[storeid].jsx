@@ -1,6 +1,6 @@
 import { Schedule, Verify } from "../../components/appointments";
 import { useUser } from "../../store/commonFunctions";
-import { getStoreById } from "../api/storeAPI";
+import { useGetStoreById } from "../api/storeAPI";
 import { useRouter } from "next/router";
 import {
   closestIndexTo,
@@ -21,7 +21,7 @@ import { AnimatePresence } from "framer-motion";
 export default function Page() {
   const router = useRouter();
   const { user } = useUser({ redirectTo: "/" });
-  const { store } = getStoreById(router.query.storeid);
+  const { store } = useGetStoreById(router.query.storeid);
   const today = startOfToday(new Date());
   const [selectedWeek, setSelectedWeek] = useState(null);
   const [selectedDiaryIndex, setSelectedDiaryIndex] = useState(0);

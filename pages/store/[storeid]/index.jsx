@@ -21,14 +21,14 @@ import {
 } from "date-fns";
 import { he } from "date-fns/locale";
 import { AnimatePresence } from "framer-motion";
-import { getStoreById } from "../../api/storeAPI";
+import { useGetStoreById } from "../../api/storeAPI";
 import { useRouter } from "next/router";
 setDefaultOptions({ locale: he });
 
 export default function Page() {
   const router = useRouter();
   const { user } = useUser({ redirectTo: "/", owner: true });
-  const { store } = getStoreById(router.query.storeid);
+  const { store } = useGetStoreById(router.query.storeid);
   const today = startOfToday(new Date());
   const [isCreatingNewDiary, setIsCreatingNewDiary] = useState(false);
   const [currentSection, setCurrentSection] = useState(0);
