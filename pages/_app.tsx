@@ -1,29 +1,18 @@
 import "@/styles/globals.css";
-import Navbar from "../components/nav-bar";
+import { NavClosed, NavOpen } from "../components/nav-bar";
 import type { AppProps } from "next/app";
 import { motion, AnimatePresence } from "framer-motion";
-import calendarStore from "../store/calendar";
+import appStore from "../store/store";
 
 export default function App({ Component, pageProps }: AppProps) {
-  const { isNavOpen } = calendarStore((state) => state);
+  const { isNavOpen } = appStore((state) => state);
   return (
-    <div className="w-full h-full fixed dir overflow-hidden font-rubik">
+    <>
       <motion.div
-        animate={
-          isNavOpen
-            ? {
-                x: 300,
-                pointerEvents: "none",
-              }
-            : {
-                x: 0,
-                pointerEvents: "auto",
-              }
-        }
+        animate={isNavOpen ? { x: 300 } : { x: 0 }}
         transition={{ duration: 0.8 }}
-        className="w-full h-full"
+        className="w-full h-full flex flex-col fixed dir font-rubik text-thirty overflow-y-auto overflow-x-hidden"
       >
-        <Component {...pageProps} />
         <AnimatePresence>
           {isNavOpen && (
             <motion.div
@@ -31,12 +20,14 @@ export default function App({ Component, pageProps }: AppProps) {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.8 }}
-              className="w-full h-full absolute top-0 right-0 bg-black/80 z-10 backdrop-blur-[4px] pointer-events-auto"
+              className="absolute top-0 bottom- right-0 left-0 h-full w-full bg-thirty/90 z-10"
             ></motion.div>
           )}
         </AnimatePresence>
+        <NavClosed />
+        <Component {...pageProps} />
       </motion.div>
-      <AnimatePresence>{isNavOpen && <Navbar />}</AnimatePresence>
-    </div>
+      <AnimatePresence>{isNavOpen && <NavOpen />}</AnimatePresence>
+    </>
   );
 }

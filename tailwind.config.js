@@ -15,7 +15,11 @@ module.exports = {
       },
       colors: {
         peachRed: "#ef3636",
+        litepink: "#FFE2E2",
         brownBlack: "#241515",
+        thirty: "#2C2C2C",
+        ten: "#E5901A",
+        danger: "#F53D3D",
       },
     },
   },
