@@ -18,6 +18,7 @@ export function useGetStoreById(id) {
     }
     return () => {
       api();
+      console.log("runing");
     };
   }, [user]);
   return { store };
