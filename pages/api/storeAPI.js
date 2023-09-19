@@ -7,6 +7,7 @@ const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL;
 export function useGetStoreById(id) {
   const [store, setStore] = useState(null);
   const { user } = appStore((state) => state);
+  console.log(user);
   useEffect(() => {
     async function api() {
       try {
@@ -18,7 +19,6 @@ export function useGetStoreById(id) {
     }
     return () => {
       api();
-      console.log("runing");
     };
   }, [user]);
   return { store };
