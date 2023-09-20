@@ -213,10 +213,8 @@ export function Schedule({ store, selectedDiaryIndex, setSelectedDay }) {
       });
       arrOfWeekTimes.push(result);
     });
-
-    return () => {
-      setWorkingTimes(arrOfWeekTimes);
-    };
+    setWorkingTimes(arrOfWeekTimes);
+    console.log("appointments");
   }, [store]);
   const lastDayIndex =
     workingTimes.length > 0 && getDay(workingTimes[workingTimes.length - 1][0]);
